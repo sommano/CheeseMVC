@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using CheeseMVC.Models;
 using CheeseMVC.ViewModels;
 using CheeseMVC.Data;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CheeseMVC.Controllers
 {
@@ -16,7 +18,7 @@ namespace CheeseMVC.Controllers
         {
             context = dbContext;
         }
-
+        // GET: /<controller>/
         public IActionResult Index()
         {
             IList<Cheese> cheeses = context.Cheeses.Include(c => c.Category).ToList();
@@ -52,7 +54,6 @@ namespace CheeseMVC.Controllers
 
             return View(addCheeseViewModel);
         }
-
         public IActionResult Remove()
         {
             ViewBag.title = "Remove Cheeses";
@@ -68,6 +69,7 @@ namespace CheeseMVC.Controllers
                 Cheese theCheese = context.Cheeses.Single(c => c.ID == cheeseId);
                 context.Cheeses.Remove(theCheese);
             }
+
             context.SaveChanges();
             return Redirect("/");
         }
